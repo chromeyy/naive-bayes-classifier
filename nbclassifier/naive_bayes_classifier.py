@@ -1,8 +1,7 @@
 import numpy as np
-import pandas as pd
-from classifier import Classifier
-from preprocessing import PreprocessedText
-from exceptions import ClassifierUntrainedError, ClassifierAlreadyTrainedError, InvalidPreprocessingError, NotPreprocessedError
+from nbclassifier.preprocessing import PreprocessedText
+from nbclassifier.base_classifier import Classifier
+from nbclassifier.exceptions import ClassifierUntrainedError, ClassifierAlreadyTrainedError, InvalidPreprocessingError, NotPreprocessedError
 
 
 class NaiveBayesClassifier(Classifier):
