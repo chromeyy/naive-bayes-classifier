@@ -1,7 +1,7 @@
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from nltk import WordPunctTokenizer
 import copy
-from exceptions import UnfittedPreprocessorError, RefittingPreprocessorError
+from nbclassifier.exceptions import UnfittedPreprocessorError, RefittingPreprocessorError
 
 
 class PreprocessedText:
@@ -31,16 +31,18 @@ class TextPreprocessor:
                     tokenizer=WordPunctTokenizer().tokenize,
                     max_features=max_features
                 )
+        self.fitted = False
 
     def fit_transform(self, x):
-        if self.vectorizer.vocabulary_:
+        if self.fitted:
             raise RefittingPreprocessorError
+        self.fitted = True
         vector = self.vectorizer.fit_transform(x).toarray()
         feature_names = self.vectorizer.get_feature_names_out()
         return PreprocessedText(feature_names, vector)
 
     def transform(self, x):
-        if not self.vectorizer.vocabulary_:
+        if not self.fitted:
             raise UnfittedPreprocessorError
         vector = self.vectorizer.transform(x).toarray()
         feature_names = self.vectorizer.get_feature_names_out()
