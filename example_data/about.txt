@@ -1,0 +1,5 @@
+Dataset: BBC news articles
+
+Each news article is a comma-separated line with three columns: news ID, processed news body, news class.
+The news bodies have preprocessed by tokenization and lower-cased with removal of stop words and special characters.
+You can find the two data files, train.csv and test.csv.
