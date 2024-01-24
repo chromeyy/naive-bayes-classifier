@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from nltk import WordPunctTokenizer
-import copy
+from nltk import WhitespaceTokenizer
+import pandas as pd
 from nbclassifier.exceptions import UnfittedPreprocessorError, RefittingPreprocessorError
 
 
@@ -17,23 +17,23 @@ class PreprocessedText:
 
 
 class TextPreprocessor:
-    def __init__(self, tfidf=False, ngram_range: tuple[int, int] = (0, 0), max_features=10000000):
+    def __init__(self, tfidf=False, ngram_range: tuple[int, int] = (1, 1), max_features=10000000):
         match tfidf:
             case False:
                 self.vectorizer = CountVectorizer(
                     ngram_range=ngram_range,
-                    tokenizer=WordPunctTokenizer().tokenize,
+                    tokenizer=WhitespaceTokenizer().tokenize,
                     max_features=max_features
                 )
             case True:
                 self.vectorizer = TfidfVectorizer(
                     ngram_range=ngram_range,
-                    tokenizer=WordPunctTokenizer().tokenize,
+                    tokenizer=WhitespaceTokenizer().tokenize,
                     max_features=max_features
                 )
         self.fitted = False
 
-    def fit_transform(self, x):
+    def fit_transform(self, x: pd.DataFrame):
         if self.fitted:
             raise RefittingPreprocessorError
         self.fitted = True
@@ -41,7 +41,7 @@ class TextPreprocessor:
         feature_names = self.vectorizer.get_feature_names_out()
         return PreprocessedText(feature_names, vector)
 
-    def transform(self, x):
+    def transform(self, x: pd.DataFrame):
         if not self.fitted:
             raise UnfittedPreprocessorError
         vector = self.vectorizer.transform(x).toarray()
