@@ -41,7 +41,7 @@ class NaiveBayesClassifier(Classifier):
             # get all texts for a class as the documents for a class
             docs = x_vector[y == c]
             # calculate class probabilities
-            self.class_probabilities[c] = np.log(len(docs)) - np.log(len(x))
+            self.class_probabilities[c] = np.log(len(docs)) - np.log(len(x_vector))
             # calculate the total amount of tokens contained within the class's documents
             total_tokens = np.sum(docs)
             # calculate the occurrence of each token contained within a vector
@@ -57,7 +57,7 @@ class NaiveBayesClassifier(Classifier):
 
         # Checking if input is valid
         try:
-            if x.get_feature_names() != self.vocab:
+            if not (x.get_feature_names() == self.vocab).any():
                 raise InvalidPreprocessingError
         except Exception:
             raise NotPreprocessedError
