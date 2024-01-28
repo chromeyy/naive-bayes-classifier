@@ -57,10 +57,12 @@ class NaiveBayesClassifier(Classifier):
 
         # Checking if input is valid
         try:
-            if not (x.get_feature_names() == self.vocab).any():
-                raise InvalidPreprocessingError
+            vocab = x.get_feature_names()
         except Exception:
             raise NotPreprocessedError
+
+        if len(vocab) != len(self.vocab) or not vocab.all() == self.vocab.all():
+            raise InvalidPreprocessingError
 
         # Vectorize the texts to be classified
         x_vector = x.get_vector()
