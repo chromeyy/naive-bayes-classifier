@@ -5,7 +5,7 @@ from nbclassifier.exceptions import ClassifierUntrainedError, ClassifierAlreadyT
 
 
 class NaiveBayesClassifier(Classifier):
-    def __init__(self, alpha: int = 1):
+    def __init__(self, alpha: float = 1):
         # Classes
         self.classes = None
         # Vocab, all tokens included in the text abstracts
@@ -94,6 +94,6 @@ class NaiveBayesClassifier(Classifier):
         self.word_probabilities.clear()
         self.trained = False
 
-    def clear_set_alpha(self, alpha: int = 1):
+    def clear_set_alpha(self, alpha: float = 1):
         # Clearing the model with function of changing the alpha hyperparameter
         self.__init__(alpha)

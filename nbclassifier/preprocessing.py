@@ -33,7 +33,7 @@ class TextPreprocessor:
                 )
         self.fitted = False
 
-    def fit_transform(self, x: pd.DataFrame):
+    def fit_transform(self, x: pd.DataFrame) -> PreprocessedText:
         if self.fitted:
             raise RefittingPreprocessorError
         self.fitted = True
@@ -41,7 +41,7 @@ class TextPreprocessor:
         feature_names = self.vectorizer.get_feature_names_out()
         return PreprocessedText(feature_names, vector)
 
-    def transform(self, x: pd.DataFrame):
+    def transform(self, x: pd.DataFrame) -> PreprocessedText:
         if not self.fitted:
             raise UnfittedPreprocessorError
         vector = self.vectorizer.transform(x).toarray()
